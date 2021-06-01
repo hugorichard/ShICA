@@ -34,3 +34,11 @@ Performances on non Gaussian sources:
 Performances when some sources are Gaussian and some non-Gaussian:
 
 ![Semi Gaussian](./figures/semigaussian.png)
+
+__Note__
+The current implementation uses less seeds and less points in the curves so that computation time is reduced. In order to obtain exactly the same curves as in the paper you should modify the files `rotation.py`, `full_nongaussian.py` and `semigaussian.py` in the `experiments` directory so that 
+```
+num_points = 20
+seeds = np.arange(40)
+ns = np.logspace(2, 5, num_points)
+```
