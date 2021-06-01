@@ -13,13 +13,13 @@ Move into the experiments directory
 ``cd experiments``
 
 Run the bash script to produce results (should take approximately 3 minutes on a modern laptop)
-``bash run_all ``
+``bash run_all.bash ``
 
 Move into the plotting directory
 `` cd plotting ``
 
 Run the bash script to produce figures from the results
-``bash plot_all ``
+``bash plot_all.bash ``
 
 Figures are available in the ``figures`` directory.
 Performances on Gaussian sources:
