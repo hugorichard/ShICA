@@ -22,6 +22,7 @@ Run the bash script to produce figures from the results
 ``bash plot_all.bash ``
 
 Figures are available in the ``figures`` directory.
+
 Performances on Gaussian sources:
 ![Full non Gaussian](./figures/rotation.png)
 
