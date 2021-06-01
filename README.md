@@ -24,10 +24,13 @@ Run the bash script to produce figures from the results
 Figures are available in the ``figures`` directory.
 
 Performances on Gaussian sources:
+
 ![Full non Gaussian](./figures/rotation.png)
 
 Performances on non Gaussian sources:
+
 ![Full Gaussian](./figures/full_nongaussian.png)
 
 Performances when some sources are Gaussian and some non-Gaussian:
+
 ![Semi Gaussian](./figures/semigaussian.png)
