@@ -36,13 +36,13 @@ def minimize_i(D, CY, i):
 
 def loss(D, CY):
     m, k = D.shape
-    l = 0
+    current_loss = 0
     for i in range(m):
         for j in range(m):
             if i == j:
                 continue
-            l += np.sum((D[i] * CY[i, j] * D[j] - np.ones(k)) ** 2)
-    return l
+            current_loss += np.sum((D[i] * CY[i, j] * D[j] - np.ones(k)) ** 2)
+    return current_loss
 
 
 def grad(D, CY):

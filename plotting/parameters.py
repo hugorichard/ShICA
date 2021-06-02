@@ -1,5 +1,3 @@
-import matplotlib.pyplot as plt
-import numpy as np
 from matplotlib.cm import get_cmap
 
 vir = get_cmap("Set1", 9)

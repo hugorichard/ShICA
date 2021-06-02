@@ -2,6 +2,7 @@ import warnings
 import numpy as np
 from scipy import stats
 from shica import shica_j
+from shica.loss import loggauss, loss_total
 
 
 def plugin_noise(Xs):
@@ -118,19 +119,19 @@ def Sigma_to_sigma_lambda(Sigma, eps2=0):
     Returns
     -------
     sigma: shape (k)
-    l: shape (m, k)
+    l_list: shape (m, k)
         l-parameter ready for gradient computation
     """
     m, k = Sigma.shape
     sigma = m / np.sum(1 / Sigma, axis=0)
-    l = sigma / (Sigma * m)
+    l_list = sigma / (Sigma * m)
     sigma = np.sqrt(sigma)
-    l = l - eps2
-    if not (l > 0).all():
-        print(l)
-    assert (l > 0).all()
-    l = np.sqrt(l)
-    return sigma, l
+    l_list = l_list - eps2
+    if not (l_list > 0).all():
+        print(l_list)
+    assert (l_list > 0).all()
+    l_list = np.sqrt(l_list)
+    return sigma, l_list
 
 
 def sigma_lambda_to_Sigma(sigma, l, eps2=0):

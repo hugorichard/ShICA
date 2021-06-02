@@ -1,6 +1,7 @@
 import numpy as np
 from mvlearn.decomposition import GroupICA
 from joblib import Parallel, delayed, dump
+from shica.exp_utils import amari_d
 from shica import shica_j, shica_ml
 import os
 
