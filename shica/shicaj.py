@@ -83,7 +83,7 @@ def global_min(D_init, CY, n_iters=100, verbose=False, tol=1e-4):
 
 def shica_j(
     X_list,
-    max_iter=1000,
+    max_iter=10000,
     tol=1e-5,
     use_jointdiag=True,
     use_scaling=True,

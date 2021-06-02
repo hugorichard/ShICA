@@ -12,6 +12,6 @@ setup(
         "scipy>=0.18.0",
         "matplotlib>=2.0.0",
         "qndiag",
-        "mvlearn",
+        "mvlearn[multiviewica]",
     ],
 )
