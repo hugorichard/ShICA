@@ -1,7 +1,6 @@
-import numpy as np
 import warnings
-from amvica.loss import loss_total, loggauss
-import scipy.stats
+import numpy as np
+from scipy import stats
 from shica import shica_j
 
 
@@ -30,7 +29,7 @@ def fi_gauss(Y, sigma, n_subjects):
 
 def loss_total_gauss(basis_list, Y_list, l, sigmas, check_l=True):
     m, p, p3 = basis_list.shape
-    m2, p2, n = Y_list.shape
+    m2, p2, _ = Y_list.shape
     m3, p4 = l.shape
     (p5,) = sigmas.shape
     assert m == m2
@@ -47,8 +46,7 @@ def loss_total_gauss(basis_list, Y_list, l, sigmas, check_l=True):
     Y_avg = np.sum(
         [(li.reshape(-1, 1) ** 2) * y for li, y in zip(l, Y_list)], axis=0,
     )
-    loss = 0
-    loss += np.mean(f_gauss(Y_avg, sigmas, m))
+    loss = np.mean(f_gauss(Y_avg, sigmas, m))
     for j in range(p):
         loss += (m - 1) / 2 * np.log(sigmas[j] ** 2)
     for i, (W, Y) in enumerate(zip(basis_list, Y_list)):
@@ -72,7 +70,7 @@ def mmse(source, noise, a, b, m):
         num = 0
         denum = 0
         for n in [a, b]:
-            norm = scipy.stats.norm(0, np.sqrt(n + noise[j] ** 2 / m))
+            norm = stats.norm(0, np.sqrt(n + noise[j] ** 2 / m))
             denum += norm.pdf(source[j])
             coef = n * source[j] / (n + noise[j] ** 2 / m)
             num += norm.pdf(source[j]) * coef
@@ -95,7 +93,7 @@ def var_s(source, noise, a, b, m):
         num = 0
         denum = 0
         for n in [a, b]:
-            norm = scipy.stats.norm(0, np.sqrt(n + noise[j] ** 2 / m))
+            norm = stats.norm(0, np.sqrt(n + noise[j] ** 2 / m))
             denum += norm.pdf(source[j])
             coef = n * noise[j] ** 2 / m / (n + noise[j] ** 2 / m)
             num += norm.pdf(source[j]) * coef
@@ -114,11 +112,14 @@ def var_s_gauss(source, noise, m):
 def Sigma_to_sigma_lambda(Sigma, eps2=0):
     """
     Parameters
+    ----------
     Sigma: shape (m, k)
+
     Returns
+    -------
     sigma: shape (k)
     l: shape (m, k)
-    l-parameter ready for gradient computation
+        l-parameter ready for gradient computation
     """
     m, k = Sigma.shape
     sigma = m / np.sum(1 / Sigma, axis=0)
@@ -135,11 +136,14 @@ def Sigma_to_sigma_lambda(Sigma, eps2=0):
 def sigma_lambda_to_Sigma(sigma, l, eps2=0):
     """
     Parameters
+    ----------
     Sigma: shape (m, k)
+
     Returns
+    -------
     sigma: shape (m, k)
     l: shape (m, k)
-    l-parameter ready for gradient computation
+        l-parameter ready for gradient computation
     """
     m = len(l)
     return sigma ** 2 / (m * (l ** 2 + eps2))
@@ -213,7 +217,7 @@ def update_Wi(
             step /= 2.0
 
     step = 1
-    for j in range(n_ls_tries):
+    for _ in range(n_ls_tries):
         new_Wi = Wi - step * G.dot(Wi)
         new_Yi = new_Wi.dot(Xi)
         new_loss = loss_Wi(new_Wi, Xi, new_Yi, Sigmai, Es, Vars)
@@ -236,7 +240,7 @@ def shica_ml(
     """
     Parameters
     ----------
-    X_list : np array of shape (m, k, n)
+    X_list : ndarray of shape (m, k, n)
         input data
 
     max_iter: int
@@ -249,10 +253,10 @@ def shica_ml(
         If `None` parameters `W_init` and `Sigmas_init` are used
         to initialize unmixing matrices and noise covariance matrices
 
-    W_init : np array of shape (m, k, k)
+    W_init : ndarray of shape (m, k, k)
         Initial unmixing matrices
 
-    Sigmas_init : np array of shape (m, k)
+    Sigmas_init : ndarray of shape (m, k)
         Initial noise covariances
 
     tol: float
@@ -264,13 +268,13 @@ def shica_ml(
 
     Returns
     -------
-    W_list : np array of shape (m, k, k)
+    W_list : ndarray of shape (m, k, k)
         Unmixing matrices
 
-    Sigmas: np array of shape (k,)
+    Sigmas: ndarray of shape (k,)
         Noise covariances
 
-    Y_avg: np array of shape (k, n)
+    Y_avg: ndarray of shape (k, n)
         Source estimates
     """
     m, k, n = X_list.shape

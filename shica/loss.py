@@ -1,6 +1,4 @@
 import numpy as np
-import scipy.stats as stats
-import warnings
 
 
 def loss_total(basis_list, Y_list, l, sigmas, a, b, eps2, check_l=True):

@@ -1,6 +1,6 @@
 import numpy as np
+from scipy import linalg
 from qndiag import qndiag
-import scipy.linalg as linalg
 
 
 def update_Sigmai(covY, Sigmas, k):
@@ -47,7 +47,6 @@ def loss(D, CY):
 
 def grad(D, CY):
     m, k = D.shape
-    l = 0
     G = []
     for i in range(m):
         Gij = np.zeros_like(D[i])
@@ -61,7 +60,7 @@ def grad(D, CY):
 
 def global_min(D_init, CY, n_iters=100, verbose=False, tol=1e-4):
     D_list = np.copy(D_init)
-    m, k = D_list.shape
+    m, _ = D_list.shape
     for i in range(n_iters):
         norm = 0
         for j in range(m):
@@ -94,7 +93,7 @@ def shica_j(
 
     Parameters
     ----------
-    X_list : np array of shape (m, k, n)
+    X_list : ndarray of shape (m, k, n)
         input data
 
     max_iter: int
@@ -109,13 +108,13 @@ def shica_j(
 
     Returns
     -------
-    W_list : np array of shape (m, k, k)
+    W_list : ndarray of shape (m, k, k)
         Unmixing matrices
 
-    Sigmas: np array of shape (k,)
+    Sigmas: ndarray of shape (k,)
         Noise covariances
 
-    Y_avg: np array of shape (k, n)
+    Y_avg: ndarray of shape (k, n)
         Source estimates
     """
     m, k, n = X_list.shape
