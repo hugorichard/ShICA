@@ -1,9 +1,10 @@
-import numpy as np
-from shica import shica_j, shica_ml
-from mvlearn.decomposition import GroupICA
-from shica.exp_utils import amari_d
-from joblib import Parallel, delayed, dump
 import os
+import numpy as np
+from mvlearn.decomposition import GroupICA
+from joblib import Parallel, delayed, dump
+
+from shica import shica_j, shica_ml
+from shica.exp_utils import amari_d
 
 os.makedirs("../results", exist_ok=True)
 

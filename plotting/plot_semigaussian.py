@@ -1,8 +1,9 @@
+import os
 import numpy as np
-from parameters import COLORS, NAMES
 import matplotlib.pyplot as plt
 from joblib import load
-import os
+
+from parameters import COLORS, NAMES
 
 os.makedirs("../figures", exist_ok=True)
 
