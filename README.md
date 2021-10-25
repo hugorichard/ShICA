@@ -1,4 +1,7 @@
 # ShICA
+
+[![CircleCI](https://circleci.com/gh/hugorichard/ShICA.svg?style=svg)](https://circleci.com/gh/hugorichard/ShICA)
+
 Code accompanying the paper Shared Independent Component Analysis for Multi-subject Neuroimaging
 
 ## Install 
