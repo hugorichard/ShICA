@@ -45,3 +45,8 @@ num_points = 20
 seeds = np.arange(40)
 ns = np.logspace(2, 5, num_points)
 ```
+
+Documentation
+--------------
+
+https://hugorichard.github.io/ShICA/
