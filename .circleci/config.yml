@@ -1,0 +1,105 @@
+version: 2
+
+jobs:
+  test:
+    docker:
+      - image: circleci/python:3.8
+
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - v3-packages
+            - pip-cache
+      - run:
+          name: Installation
+          command: |
+            if
+              ls $HOME | grep miniconda3 -q
+            then
+              echo
+            else
+              wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/miniconda.sh
+              chmod +x ~/miniconda.sh && ~/miniconda.sh -b
+              export PATH="$HOME/miniconda3/bin:$PATH"
+              conda create -n testenv python=3.8 #pandas pytest scikit-learn joblib cython mkl -yq
+              source activate testenv
+              pip install -r requirements.txt
+            fi
+            echo 'export PATH="$HOME/miniconda3/bin:$PATH"' >> $BASH_ENV
+      - run:
+          name: Check installation
+          command: |
+             source activate testenv
+             which python
+             python -c "import fastsrm"
+      - run:
+          name: Run tests
+          command: |
+            source activate testenv
+            pip install .
+            set -o pipefail && pytest 2>&1 | tee log.txt
+      - run:
+          name: Build doc
+          command: |
+            source activate testenv
+            # conda install --no-update-deps nilearn sphinx numpydoc sphinx-gallery -c conda-forge -yq
+            pip install -r doc/doc-requirements.txt
+            wget https://github.com/jgm/pandoc/releases/download/2.9.2.1/pandoc-2.9.2.1-linux-amd64.tar.gz
+            mkdir pandoc
+            tar xvzf pandoc-2.9.2.1-linux-amd64.tar.gz --strip-components 1 -C ./pandoc
+            pandoc/bin/pandoc --from=markdown --to=rst --output=doc/README.rst README.md
+            rm pandoc-2.9.2.1-linux-amd64.tar.gz
+            rm -r pandoc
+            cd doc
+            sed -i 's/.\/figures/..\/figures/g' README.rst
+            set -o pipefail && make html 2>&1 | tee log.txt
+            set -o pipefail | tee log.txt
+      # Save the outputs
+      - store_artifacts:
+          path: doc/_build/html/
+          destination: dev
+      - persist_to_workspace:
+          root: doc/_build
+          paths:
+            - html
+      - save_cache:
+          key: v3-packages
+          paths:
+            - $HOME/miniconda3
+      - save_cache:
+          key: pip-cache
+          paths:
+            - ~/.cache/pip
+
+  docs-deploy:
+    docker:
+      - image: node:8.10.0
+    steps:
+      - checkout
+      - attach_workspace:
+          at: doc/_build
+      - run:
+          name: Install and configure dependencies
+          command: |
+            npm install -g --silent gh-pages@2.0.1
+            git config user.email "hugo.richard@inria.fr"
+            git config user.name "hrichard"
+      - add_ssh_keys:
+          fingerprints:
+            - "3c:a7:55:31:9b:d4:30:f6:4d:b8:99:61:09:c8:b1:6a"
+      - run:
+          name: Deploy docs to gh-pages branch
+          command: gh-pages --dotfiles --message "[skip ci] Updates" --dist doc/_build/html
+
+workflows:
+  version: 2
+  build:
+    jobs:
+      - test
+      - docs-deploy:
+          requires:
+            - test
+          filters:
+            branches:
+              only: master
