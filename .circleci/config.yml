@@ -37,7 +37,7 @@ jobs:
           name: Run tests
           command: |
             source activate testenv
-            pip install .
+            pip install -e .
             set -o pipefail && pytest 2>&1 | tee log.txt
       - run:
           name: Build doc
