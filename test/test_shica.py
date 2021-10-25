@@ -10,10 +10,8 @@ N = np.random.randn(m, p, n)
 powers = np.random.rand(m, p)
 X = np.array([a.dot(S + p[:, None] * n) for p, a, n in zip(powers, A, N)])
 
+
 def test_shicaj():
-    W_pred, Sigmas, S = shica_j(X, n_components=5, verbose=True, use_jointdiag=True, use_scaling=False)
+    W_pred, Sigmas, S = shica_j(X)
     for w_pred, a in zip(W_pred, A):
-        # w_pred = np.linalg.inv(a)[:5, :]
-        plt.imshow(w_pred.dot(a))
-        plt.show()
-        print(np.max(np.abs(w_pred.dot(a)), axis=0))
+        assert amari_d(w_pred, a) < 0.1
