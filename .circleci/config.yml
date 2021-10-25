@@ -32,7 +32,7 @@ jobs:
           command: |
              source activate testenv
              which python
-             python -c "import fastsrm"
+             python -c "import shica"
       - run:
           name: Run tests
           command: |
