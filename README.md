@@ -49,4 +49,4 @@ ns = np.logspace(2, 5, num_points)
 Documentation
 --------------
 
-https://hugorichard.github.io/FastSRM/
+https://hugorichard.github.io/ShICA/
