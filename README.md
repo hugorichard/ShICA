@@ -50,3 +50,17 @@ Documentation
 --------------
 
 https://hugorichard.github.io/ShICA/index.html
+
+Cite
+--------------
+If you use this code in your project, please cite:
+```
+@inproceedings{
+richard2021shared,
+title={Shared Independent Component Analysis for Multi-Subject Neuroimaging},
+author={Hugo Richard and Pierre Ablin and Bertrand Thirion and Alexandre Gramfort and Aapo Hyvarinen},
+booktitle={Thirty-Fifth Conference on Neural Information Processing Systems},
+year={2021},
+url={https://openreview.net/forum?id=24-ZY0UZVKD}
+}
+```
