@@ -5,6 +5,7 @@ setup(
     version="0.0.0",
     description="Shared ICA",
     license="MIT",
+    py_modules=[],
     keywords="ICA",
     install_requires=[
         "numpy>=1.12",
