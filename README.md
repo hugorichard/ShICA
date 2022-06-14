@@ -83,10 +83,10 @@ ns = np.logspace(2, 5, num_points)
 Documentation
 --------------
 
-https://hugorichard.github.io/ShICA/
+https://hugorichard.github.io/ShICA/index.html
 
-
-## Cite
+Cite
+--------------
 If you use this code in your project, please cite:
 ```
 @inproceedings{NEURIPS2021_fb508ef0,
