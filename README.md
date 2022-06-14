@@ -38,6 +38,40 @@ Performances when some sources are Gaussian and some non-Gaussian:
 
 ![Semi Gaussian](./figures/semigaussian.png)
 
+## Real data experiments
+
+We give the code to run experiments on timesegment matching.
+
+#### Download and mask Sherlock data
+
+Move into the data directory
+
+``cd experiments/data``
+
+Launch the download script (Runtime ``34m6.751s``)
+
+`` bash download_data.sh ``
+
+Mask the data (Runtime ``15m27.104s``)
+
+``python mask_data.py``
+
+
+#### Timesegment matching
+
+Move into the `experiments` directory
+
+``cd experiments``
+
+Run the experiment on masked data (Runtime ``17m39.520s``)
+
+``python timesegment_matching.py``
+
+![Timesegment matching](./figures/timesegment_matching.png)
+
+This runs the experiment with ``n_components = 5`` and benchmark `ShiCA-J` and `ShICA-ML` with `SRM` as the dimension reduction method.
+
+
 __Note__
 The current implementation uses only 10 seeds and 4 different number of samples in the curves so that computation time is low even on a laptop. In order to obtain exactly the same curves as in the paper you should modify the files `rotation.py`, `full_nongaussian.py` and `semigaussian.py` in the `experiments` directory so that 
 ```
@@ -50,3 +84,20 @@ Documentation
 --------------
 
 https://hugorichard.github.io/ShICA/
+
+
+## Cite
+If you use this code in your project, please cite:
+```
+@inproceedings{NEURIPS2021_fb508ef0,
+ author = {Richard, Hugo and Ablin, Pierre and Thirion, Bertrand and Gramfort, Alexandre and Hyvarinen, Aapo},
+ booktitle = {Advances in Neural Information Processing Systems},
+ editor = {M. Ranzato and A. Beygelzimer and Y. Dauphin and P.S. Liang and J. Wortman Vaughan},
+ pages = {29962--29971},
+ publisher = {Curran Associates, Inc.},
+ title = {Shared Independent Component Analysis for Multi-Subject Neuroimaging},
+ url = {https://proceedings.neurips.cc/paper/2021/file/fb508ef074ee78a0e58c68be06d8a2eb-Paper.pdf},
+ volume = {34},
+ year = {2021}
+}
+```
