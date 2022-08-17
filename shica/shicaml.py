@@ -231,11 +231,11 @@ def update_Wi(
 
 def shica_ml(
     X_list,
-    max_iter=1000,
+    max_iter=3000,
     init="shica_j",
     W_init=None,
     Sigmas_init=None,
-    tol=1e-5,
+    tol=1e-8,
     verbose=False,
 ):
     """
@@ -284,13 +284,15 @@ def shica_ml(
     else:
         Sigmas = Sigmas_init
 
-    if W_init is not None and init is None:
-        W_list = W_init.copy()
-    else:
-        W_list = np.random.randn(m, k, k)
-
-    if init == "shica_j":
+    if init is None:
+        if W_init is not None:
+            W_list = W_init.copy()
+        else:
+            W_list = np.random.randn(m, k, k)
+    elif init == "shica_j":
         W_list, Sigmas, _ = shica_j(X_list)
+    else:
+        raise ValueError("Init should be either shica_j or None but received %s" % init)
 
     sigmas, l_list = Sigma_to_sigma_lambda(Sigmas)
     l_list = np.array(l_list)
