@@ -1,11 +1,11 @@
-from setuptools import setup
+from setuptools import setup, find_packages
 
 setup(
     name="shica",
     version="0.0.0",
     description="Shared ICA",
     license="MIT",
-    py_modules=[],
+    packages=find_packages(),
     keywords="ICA",
     install_requires=[
         "numpy>=1.12",
